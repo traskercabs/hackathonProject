@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoopGig — Open Gig-Services Cooperative Platform</title>
+    <style>
+        /* ==========================================================================
+   Base & Reset
+   ========================================================================== */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+  background: #0b0f19;
+  color: #f1f5f9;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ==========================================================================
+   Header
+   ========================================================================== */
+
+header {
+  background: #111827;
+  border-bottom: 1px solid #1f2937;
+  padding: 14px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.logo-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-badge {
+  background: linear-gradient(135deg, #2563eb, #38bdf8);
+  color: #fff;
+  font-weight: 800;
+  font-size: 16px;
+  padding: 6px 12px;
+  border-radius: 8px;
+}
+
+.title-text h1 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.title-text p {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.header-stats {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.stat-chip {
+  background: #1f2937;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  color: #38bdf8;
+  border: 1px solid #374151;
+}
+
+.wallet-pill {
+  background: #064e3b;
+  border: 1px solid #059669;
+  color: #34d399;
+  font-weight: 600;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+}
+
+/* ==========================================================================
+   Main Layout Grid
+   ========================================================================== */
+
+.container {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr) 320px;
+  gap: 20px;
+  padding: 20px 24px;
+  max-width: 1600px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* ==========================================================================
+   Left Sidebar: Navigation & Filters
+   ========================================================================== */
+
+.sidebar {
+  background: #111827;
+  border: 1px solid #1f2937;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  height: fit-content;
+}
+
+.nav-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: #64748b;
+  font-weight: 700;
+  margin: 12px 0 6px 8px;
+}
+
+.cat-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  text-align: left;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: #94a3b8;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.cat-btn:hover {
+  background: #1f2937;
+  color: #f1f5f9;
+}
+
+.cat-btn.active {
+  background: #1e3a8a;
+  border-color: #3b82f6;
+  color: #60a5fa;
+  font-weight: 600;
+}
+
+.cat-count {
+  margin-left: auto;
+  background: #374151;
+  padding: 2px 7px;
+  border-radius: 10px;
+  font-size: 11px;
+  color: #cbd5e1;
+}
+
+/* ==========================================================================
+   Center Panel: Feed & Job Cards
+   ========================================================================== */
+
+.main-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.filter-bar {
+  background: #111827;
+  border: 1px solid #1f2937;
+  border-radius: 12px;
+  padding: 12px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.filter-title {
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.live-dot {
+  width: 8px;
+  height: 8px;
+  background: #10b981;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #10b981;
+}
+
+.cards-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.job-card {
+  background: #111827;
+  border: 1px solid #1f2937;
+  border-radius: 12px;
+  padding: 18px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+  align-items: center;
+  transition: border-color 0.2s ease;
+}
+
+.job-card:hover {
+  border-color: #3b82f6;
+}
+
+/* Badges */
+.badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+}
+
+.badge-transport { background: #312e81; color: #a5b4fc; }
+.badge-home      { background: #701a75; color: #f472b6; }
+.badge-cleaning  { background: #064e3b; color: #6ee7b7; }
+.badge-delivery  { background: #78350f; color: #fcd34d; }
+
+.job-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #f8fafc;
+  margin-bottom: 4px;
+}
+
+.job-details {
+  font-size: 13px;
+  color: #94a3b8;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+
+.job-details span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.action-pane {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.job-price {
+  font-size: 22px;
+  font-weight: 800;
+  color: #34d399;
+}
+
+.job-sub {
+  font-size: 11px;
+  color: #64748b;
+  margin-bottom: 8px;
+}
+
+.claim-btn {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  padding: 9px 18px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.claim-btn:hover {
+  background: #1d4ed8;
+}
+
+/* ==========================================================================
+   Right Panel: Form & Metrics
+   ========================================================================== */
+
+.right-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.panel-box {
+  background: #111827;
+  border: 1px solid #1f2937;
+  border-radius: 12px;
+  padding: 18px;
+}
+
+.panel-title {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #f1f5f9;
+}
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 12px;
+  color: #94a3b8;
+  margin-bottom: 4px;
+}
+
+.form-group select,
+.form-group input {
+  width: 100%;
+  background: #1f2937;
+  border: 1px solid #374151;
+  padding: 8px 12px;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 13px;
+  outline: none;
+}
+
+.post-btn {
+  width: 100%;
+  background: #059669;
+  border: none;
+  color: white;
+  padding: 10px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 6px;
+  transition: background 0.2s ease;
+}
+
+.post-btn:hover {
+  background: #047857;
+}
+
+.metric-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #1f2937;
+  font-size: 13px;
+}
+
+.metric-item:last-child {
+  border-bottom: none;
+}
+
+.metric-val {
+  font-weight: 700;
+  color: #38bdf8;
+}
+
+/* ==========================================================================
+   Feedback Elements
+   ========================================================================== */
+
+#toast {
+  display: none;
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: #059669;
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  z-index: 100;
+}
+
+/* ==========================================================================
+   Responsive Breakpoints
+   ========================================================================== */
+
+/* Tablets & Small Desktops */
+@media (max-width: 1024px) {
+  .container {
+    grid-template-columns: 220px 1fr;
+  }
+
+  .right-panel {
+    grid-column: span 2;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+}
+
+/* Mobile Devices */
+@media (max-width: 768px) {
+  header {
+    padding: 12px 16px;
+  }
+
+  .header-stats {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    gap: 16px;
+  }
+
+  /* Make category menu horizontally scrollable on mobile */
+  .sidebar {
+    flex-direction: row;
+    overflow-x: auto;
+    padding: 10px;
+    gap: 8px;
+  }
+
+  .nav-label {
+    display: none;
+  }
+
+  .cat-btn {
+    width: auto;
+    padding: 8px 12px;
+  }
+
+  /* Stack card content & price */
+  .job-card {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .action-pane {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #1f2937;
+    padding-top: 12px;
+    width: 100%;
+    text-align: left;
+  }
+
+  .job-sub {
+    margin-bottom: 0;
+  }
+
+  .right-panel {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #toast {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    text-align: center;
+  }
+}
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="logo-area">
+            <div class="logo-badge">CoopGig</div>
+            <div class="title-text">
+                <h1>SIH26089: Cooperative Gig-Services Platform</h1>
+                <p>Zero-Commission • Open Market Dispatch • Flat SaaS Micro-Fees</p>
+            </div>
+        </div>
+        <div class="header-stats">
+            <div class="stat-chip">Workers Retained: <b style="color: #34d399;" id="savings-counter">₹ 4,320 Saved</b></div>
+            <div class="wallet-pill" id="wallet-pill">Wallet: ₹ 850.00</div>
+        </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <div class="container">
+        
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="nav-label">Service Verticals</div>
+            <button class="cat-btn active" onclick="filterCategory('all', this)">
+                <span>🌐 All Open Leads</span>
+                <span class="cat-count" id="count-all">5</span>
+            </button>
+            <button class="cat-btn" onclick="filterCategory('transport', this)">
+                <span>🚖 Rides & Cabs</span>
+                <span class="cat-count" id="count-transport">2</span>
+            </button>
+            <button class="cat-btn" onclick="filterCategory('delivery', this)">
+                <span>📦 Express Logistics</span>
+                <span class="cat-count" id="count-delivery">1</span>
+            </button>
+            <button class="cat-btn" onclick="filterCategory('home', this)">
+                <span>⚡ Electrician & Repair</span>
+                <span class="cat-count" id="count-home">1</span>
+            </button>
+            <button class="cat-btn" onclick="filterCategory('cleaning', this)">
+                <span>🧹 Cleaning & Sanitization</span>
+                <span class="cat-count" id="count-cleaning">1</span>
+            </button>
+
+            <div class="nav-label" style="margin-top: 20px;">Operator Tools</div>
+            <button class="cat-btn" onclick="rechargeWallet()"><span>💳 + Add ₹200 to Wallet</span></button>
+        </aside>
+
+        <!-- Center Feed -->
+        <main class="main-stage">
+            <div class="filter-bar">
+                <div class="filter-title">
+                    <div class="live-dot"></div>
+                    <span id="current-category-label">Live Cooperative Ledger (All Verticals)</span>
+                </div>
+                <span style="font-size: 12px; color: #94a3b8;">100% Direct Payout to Worker</span>
+            </div>
+
+            <div class="cards-grid" id="jobs-container">
+                <!-- Dynamically populated via JS -->
+            </div>
+        </main>
+
+        <!-- Right Action Panels -->
+        <div class="right-panel">
+            
+            <!-- Quick Post Job (Rider/Customer Perspective) -->
+            <div class="panel-box">
+                <div class="panel-title">Post New Gig / Order</div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <select id="new-cat">
+                        <option value="transport">🚖 Outstation / Local Ride</option>
+                        <option value="delivery">📦 Parcel / Goods Delivery</option>
+                        <option value="home">⚡ Home Electrician / Plumber</option>
+                        <option value="cleaning">🧹 House / Office Cleaning</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Service Description / Route</label>
+                    <input type="text" id="new-title" placeholder="e.g. Airport Transfer or AC Service">
+                </div>
+                <div class="form-group">
+                    <label>Customer Offer Price (₹)</label>
+                    <input type="number" id="new-price" placeholder="e.g. 1500">
+                </div>
+                <button class="post-btn" onclick="postJob()">+ Broadcast to Open Ledger</button>
+            </div>
+
+            <!-- Platform Unit Economics -->
+            <div class="panel-box">
+                <div class="panel-title">Cooperative Advantage</div>
+                <div class="metric-item">
+                    <span style="color: #94a3b8;">Aggregator Cut:</span>
+                    <span style="color: #f87171; font-weight: bold;">25% – 30%</span>
+                </div>
+                <div class="metric-item">
+                    <span style="color: #94a3b8;">Coop Flat Fee:</span>
+                    <span style="color: #34d399; font-weight: bold;">₹15 – ₹25 / gig</span>
+                </div>
+                <div class="metric-item">
+                    <span style="color: #94a3b8;">Worker Net Share:</span>
+                    <span class="metric-val">~98.5%</span>
+                </div>
+                <div class="metric-item">
+                    <span style="color: #94a3b8;">Active Cooperatives:</span>
+                    <span class="metric-val">12 Fleets</span>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div id="toast"></div>
+
+    <script>
+        // Initial Mock Database
+        let jobs = [
+            { id: 1, category: 'transport', badgeClass: 'badge-transport', catName: 'Rides & Cabs', title: 'Dehradun ➔ Tehri Roundtrip', details: 'Sedan • 110 km • Departure: 17:00 Today', price: 2800, fee: 20 },
+            { id: 2, category: 'home', badgeClass: 'badge-home', catName: 'Home Services', title: 'Main Panel Inverter Wiring & Inspection', details: 'Electrician Required • Rajpur Road • 2 Hours estimate', price: 650, fee: 15 },
+            { id: 3, category: 'delivery', badgeClass: 'badge-delivery', catName: 'Express Logistics', title: 'Commercial Spare Parts Delivery (45kg)', details: 'Transport Tempo • Industrial Area ➔ Patel Nagar', price: 1200, fee: 20 },
+            { id: 4, category: 'cleaning', badgeClass: 'badge-cleaning', catName: 'Deep Cleaning', title: '3BHK Post-Renovation Deep Clean', details: 'Equipment Required • 4-person crew • Scheduled: Tomorrow', price: 3500, fee: 25 },
+            { id: 5, category: 'transport', badgeClass: 'badge-transport', catName: 'Rides & Cabs', title: 'Delhi ➔ Jaipur Direct Drop', details: 'SUV Required • 280 km • Departure: Tomorrow 06:00', price: 4500, fee: 20 }
+        ];
+
+        let walletBalance = 850;
+        let totalWorkerSavings = 4320;
+        let currentFilter = 'all';
+
+        function renderJobs() {
+            const container = document.getElementById('jobs-container');
+            const filtered = currentFilter === 'all' ? jobs : jobs.filter(j => j.category === currentFilter);
+            
+            if (filtered.length === 0) {
+                container.innerHTML = '<div style="text-align: center; color: #64748b; padding: 40px;">No open leads in this category right now. New requests will appear automatically.</div>';
+                return;
+            }
+
+            container.innerHTML = filtered.map(job => `
+                <div class="job-card" id="job-${job.id}">
+                    <div>
+                        <span class="badge ${job.badgeClass}">${job.catName}</span>
+                        <div class="job-title">${job.title}</div>
+                        <div class="job-details">
+                            <span>📋 ${job.details}</span>
+                        </div>
+                    </div>
+                    <div class="action-pane">
+                        <div>
+                            <div class="job-price">₹ ${job.price.toLocaleString()}</div>
+                            <div class="job-sub">Worker keeps 100% of fare</div>
+                        </div>
+                        <button class="claim-btn" onclick="claimJob(${job.id}, ${job.fee}, ${job.price})">
+                            Claim (₹${job.fee} Flat Fee)
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+
+            updateCounts();
+        }
+
+        function updateCounts() {
+            document.getElementById('count-all').innerText = jobs.length;
+            document.getElementById('count-transport').innerText = jobs.filter(j => j.category === 'transport').length;
+            document.getElementById('count-delivery').innerText = jobs.filter(j => j.category === 'delivery').length;
+            document.getElementById('count-home').innerText = jobs.filter(j => j.category === 'home').length;
+            document.getElementById('count-cleaning').innerText = jobs.filter(j => j.category === 'cleaning').length;
+        }
+
+        function filterCategory(cat, btnElement) {
+            currentFilter = cat;
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            if(btnElement) btnElement.classList.add('active');
+            
+            const titles = {
+                all: 'Live Cooperative Ledger (All Verticals)',
+                transport: 'Live Outstation & Local Cab Dispatch',
+                delivery: 'Live Express Delivery & Cargo Leads',
+                home: 'Live Electrician, Plumbing & Repair Calls',
+                cleaning: 'Live Deep Cleaning & Sanitation Orders'
+            };
+            document.getElementById('current-category-label').innerText = titles[cat];
+            renderJobs();
+        }
+
+        function claimJob(id, fee, price) {
+            if (walletBalance < fee) {
+                alert('Wallet balance too low for flat SaaS fee. Please recharge.');
+                return;
+            }
+
+            walletBalance -= fee;
+            // Traditional app would take 25% = price * 0.25. Savings = (price * 0.25) - fee
+            const saved = (price * 0.25) - fee;
+            totalWorkerSavings += Math.max(0, saved);
+
+            jobs = jobs.filter(j => j.id !== id);
+            
+            document.getElementById('wallet-pill').innerText = `Wallet: ₹ ${walletBalance.toFixed(2)}`;
+            document.getElementById('savings-counter').innerText = `₹ ${Math.round(totalWorkerSavings).toLocaleString()} Saved`;
+            
+            showToast(`Lead Claimed! Platform fee: ₹${fee} (Worker retained ₹${price - fee})`);
+            renderJobs();
+        }
+
+        function postJob() {
+            const cat = document.getElementById('new-cat').value;
+            const title = document.getElementById('new-title').value.trim();
+            const price = parseFloat(document.getElementById('new-price').value);
+
+            if (!title || !price || price <= 0) {
+                alert('Please enter a valid title and price.');
+                return;
+            }
+
+            const badges = {
+                transport: { badgeClass: 'badge-transport', catName: 'Rides & Cabs', fee: 20 },
+                delivery: { badgeClass: 'badge-delivery', catName: 'Express Logistics', fee: 20 },
+                home: { badgeClass: 'badge-home', catName: 'Home Services', fee: 15 },
+                cleaning: { badgeClass: 'badge-cleaning', catName: 'Deep Cleaning', fee: 25 }
+            };
+
+            const newJob = {
+                id: Date.now(),
+                category: cat,
+                badgeClass: badges[cat].badgeClass,
+                catName: badges[cat].catName,
+                title: title,
+                details: 'Direct customer broadcast • Flexible timing',
+                price: price,
+                fee: badges[cat].fee
+            };
+
+            jobs.unshift(newJob);
+            document.getElementById('new-title').value = '';
+            document.getElementById('new-price').value = '';
+
+            showToast('New gig broadcasted to cooperative ledger!');
+            renderJobs();
+        }
+
+        function rechargeWallet() {
+            walletBalance += 200;
+            document.getElementById('wallet-pill').innerText = `Wallet: ₹ ${walletBalance.toFixed(2)}`;
+            showToast('₹200 added to operator SaaS balance.');
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.innerText = msg;
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, 3000);
+        }
+
+        // Initialize view on load
+        renderJobs();
+    </script>
+</body>
+</html>
