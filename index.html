@@ -1,62 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ScamShield — Web Scanner</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoopGig — Open Gig-Services Cooperative Platform</title>
+    <link rel="stylesheet" href="style.css">
+    
 </head>
 <body>
-  <div class="container">
+
+    <!-- Header -->
     <header>
-      <h1>🛡️ScamShield </h1>
-      <p class="subtitle">Fake & Suspicious Website Detector (basic)</p>
+        <div class="logo-area">
+            <div class="logo-badge">CoopGig</div>
+            <div class="title-text">
+                <h1>SIH26089: Cooperative Gig-Services Platform</h1>
+                <p>Zero-Commission • Open Market Dispatch • Flat SaaS Micro-Fees</p>
+            </div>
+        </div>
+        <div class="header-stats">
+            <div class="stat-chip">Workers Retained: <b style="color: #34d399;" id="savings-counter">₹ 4,320 Saved</b></div>
+            <div class="wallet-pill" id="wallet-pill">Wallet: ₹ 850.00</div>
+        </div>
     </header>
 
-    <main>
-      <div class="input-section">
-        <label for="url-input">Enter website URL or domain:</label>
-        <div class="input-group">
-          <input 
-            type="text" 
-            id="url-input" 
-            placeholder="e.g. flipkart-sale.xyz or https://meesho-offer.shop" 
-            autocomplete="off"
-          />
-          <button id="scan-btn">Scan Website</button>
-        </div>
+    <!-- Main Workspace -->
+    <div class="container">
         
-        <div class="quick-examples">
-          <span>Try:</span>
-          <button class="chip" data-url="flipkart.com">flipkart.com</button>
-          <button class="chip" data-url="flipkart-super-sale.xyz">flipkart-super-sale.xyz</button>
-          <button class="chip" data-url="meesho-offer.shop">meesho-offer.shop</button>
-        </div>
-      </div>
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="nav-label">Service Verticals</div>
+            <button class="cat-btn active" onclick="filterCategory('all', this)">
+                <span>🌐 All Open Leads</span>
+                <span class="cat-count" id="count-all">5</span>
+            </button>
+            <button class="cat-btn" onclick="filterCategory('transport', this)">
+                <span>🚖 Rides & Cabs</span>
+                <span class="cat-count" id="count-transport">2</span>
+            </button>
+            <button class="cat-btn" onclick="filterCategory('delivery', this)">
+                <span>📦 Express Logistics</span>
+                <span class="cat-count" id="count-delivery">1</span>
+            </button>
+            <button class="cat-btn" onclick="filterCategory('home', this)">
+                <span>⚡ Electrician & Repair</span>
+                <span class="cat-count" id="count-home">1</span>
+            </button>
+            <button class="cat-btn" onclick="filterCategory('cleaning', this)">
+                <span>🧹 Cleaning & Sanitization</span>
+                <span class="cat-count" id="count-cleaning">1</span>
+            </button>
 
-      <div id="result-card" class="result-card hidden">
-        <div class="domain-header">
-          <span class="label">Analyzed Domain:</span>
-          <h2 id="domain-display">-</h2>
+            <div class="nav-label" style="margin-top: 20px;">Operator Tools</div>
+            <button class="cat-btn" onclick="rechargeWallet()"><span>💳 + Add ₹200 to Wallet</span></button>
+        </aside>
+
+        <!-- Center Feed -->
+        <main class="main-stage">
+            <div class="filter-bar">
+                <div class="filter-title">
+                    <div class="live-dot"></div>
+                    <span id="current-category-label">Live Cooperative Ledger (All Verticals)</span>
+                </div>
+                <span style="font-size: 12px; color: #94a3b8;">100% Direct Payout to Worker</span>
+            </div>
+
+            <div class="cards-grid" id="jobs-container">
+                <!-- Dynamically populated via JS -->
+            </div>
+        </main>
+
+        <!-- Right Action Panels -->
+        <div class="right-panel">
+            
+            <!-- Quick Post Job (Rider/Customer Perspective) -->
+            <div class="panel-box">
+                <div class="panel-title">Post New Gig / Order</div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <select id="new-cat">
+                        <option value="transport">🚖 Outstation / Local Ride</option>
+                        <option value="delivery">📦 Parcel / Goods Delivery</option>
+                        <option value="home">⚡ Home Electrician / Plumber</option>
+                        <option value="cleaning">🧹 House / Office Cleaning</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Service Description / Route</label>
+                    <input type="text" id="new-title" placeholder="e.g. Airport Transfer or AC Service">
+                </div>
+                <div class="form-group">
+                    <label>Customer Offer Price (₹)</label>
+                    <input type="number" id="new-price" placeholder="e.g. 1500">
+                </div>
+                <button class="post-btn" onclick="postJob()">+ Broadcast to Open Ledger</button>
+            </div>
+
+            <!-- Platform Unit Economics -->
+            <div class="panel-box">
+                <div class="panel-title">Cooperative Advantage</div>
+                <div class="metric-item">
+                    <span style="color: #94a3b8;">Aggregator Cut:</span>
+                    <span style="color: #f87171; font-weight: bold;">25% – 30%</span>
+                </div>
+                <div class="metric-item">
+                    <span style="color: #94a3b8;">Coop Flat Fee:</span>
+                    <span style="color: #34d399; font-weight: bold;">₹15 – ₹25 / gig</span>
+                </div>
+                <div class="metric-item">
+                    <span style="color: #94a3b8;">Worker Net Share:</span>
+                    <span class="metric-val">~98.5%</span>
+                </div>
+                <div class="metric-item">
+                    <span style="color: #94a3b8;">Active Cooperatives:</span>
+                    <span class="metric-val">12 Fleets</span>
+                </div>
+            </div>
+
         </div>
 
-        <div id="risk-badge" class="risk-badge">
-          <span id="risk-level">-</span>
-        </div>
+    </div>
 
-        <div class="score-container">
-          <span class="score-label">Risk Score:</span>
-          <span id="risk-score" class="score-value">0</span><span class="score-max">/100</span>
-        </div>
+    <div id="toast"></div>
 
-        <div class="reasons-box">
-          <h3>Detected Signals:</h3>
-          <ul id="reasons-list"></ul>
-        </div>
-      </div>
-    </main>
-  </div>
-
-  <script src="app.js"></script>
+   <script src="app.js"></script> 
 </body>
 </html>
+
+
