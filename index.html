@@ -3,128 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CoopGig — Open Gig-Services Cooperative Platform</title>
+    <title>CoopGig - Customer App</title>
     <link rel="stylesheet" href="style.css">
-    
 </head>
 <body>
 
-    <!-- Header -->
-    <header>
-        <div class="logo-area">
-            <div class="logo-badge">CoopGig</div>
-            <div class="title-text">
-                <h1>SIH26089: Cooperative Gig-Services Platform</h1>
-                <p>Zero-Commission • Open Market Dispatch • Flat SaaS Micro-Fees</p>
-            </div>
-        </div>
-        <div class="header-stats">
-            <div class="stat-chip">Workers Retained: <b style="color: #34d399;" id="savings-counter">₹ 4,320 Saved</b></div>
-            <div class="wallet-pill" id="wallet-pill">Wallet: ₹ 850.00</div>
-        </div>
-    </header>
-
-    <!-- Main Workspace -->
-    <div class="container">
+    <div class="app-container">
         
-        <!-- Sidebar Navigation -->
-        <aside class="sidebar">
-            <div class="nav-label">Service Verticals</div>
-            <button class="cat-btn active" onclick="filterCategory('all', this)">
-                <span>🌐 All Open Leads</span>
-                <span class="cat-count" id="count-all">5</span>
-            </button>
-            <button class="cat-btn" onclick="filterCategory('transport', this)">
-                <span>🚖 Rides & Cabs</span>
-                <span class="cat-count" id="count-transport">2</span>
-            </button>
-            <button class="cat-btn" onclick="filterCategory('delivery', this)">
-                <span>📦 Express Logistics</span>
-                <span class="cat-count" id="count-delivery">1</span>
-            </button>
-            <button class="cat-btn" onclick="filterCategory('home', this)">
-                <span>⚡ Electrician & Repair</span>
-                <span class="cat-count" id="count-home">1</span>
-            </button>
-            <button class="cat-btn" onclick="filterCategory('cleaning', this)">
-                <span>🧹 Cleaning & Sanitization</span>
-                <span class="cat-count" id="count-cleaning">1</span>
-            </button>
+        <header>
+            <div class="logo">CoopGig</div>
+            <button class="profile-btn">Arsh's Account</button>
+        </header>
 
-            <div class="nav-label" style="margin-top: 20px;">Operator Tools</div>
-            <button class="cat-btn" onclick="rechargeWallet()"><span>💳 + Add ₹200 to Wallet</span></button>
-        </aside>
-
-        <!-- Center Feed -->
-        <main class="main-stage">
-            <div class="filter-bar">
-                <div class="filter-title">
-                    <div class="live-dot"></div>
-                    <span id="current-category-label">Live Cooperative Ledger (All Verticals)</span>
-                </div>
-                <span style="font-size: 12px; color: #94a3b8;">100% Direct Payout to Worker</span>
-            </div>
-
-            <div class="cards-grid" id="jobs-container">
-                <!-- Dynamically populated via JS -->
-            </div>
-        </main>
-
-        <!-- Right Action Panels -->
-        <div class="right-panel">
+        <div class="content" id="main-view">
+            <h1>What do you need?</h1>
             
-            <!-- Quick Post Job (Rider/Customer Perspective) -->
-            <div class="panel-box">
-                <div class="panel-title">Post New Gig / Order</div>
-                <div class="form-group">
-                    <label>Category</label>
-                    <select id="new-cat">
-                        <option value="transport">🚖 Outstation / Local Ride</option>
-                        <option value="delivery">📦 Parcel / Goods Delivery</option>
-                        <option value="home">⚡ Home Electrician / Plumber</option>
-                        <option value="cleaning">🧹 House / Office Cleaning</option>
-                    </select>
+            <div class="service-grid">
+                <div class="service-card active" onclick="selectService('ride', this)">
+                    <div class="service-icon">🚖</div>
+                    <div class="service-name">Ride / Cab</div>
                 </div>
-                <div class="form-group">
-                    <label>Service Description / Route</label>
-                    <input type="text" id="new-title" placeholder="e.g. Airport Transfer or AC Service">
+                <div class="service-card" onclick="selectService('delivery', this)">
+                    <div class="service-icon">📦</div>
+                    <div class="service-name">Delivery</div>
                 </div>
-                <div class="form-group">
-                    <label>Customer Offer Price (₹)</label>
-                    <input type="number" id="new-price" placeholder="e.g. 1500">
+                <div class="service-card" onclick="selectService('home', this)">
+                    <div class="service-icon">⚡</div>
+                    <div class="service-name">Home Repair</div>
                 </div>
-                <button class="post-btn" onclick="postJob()">+ Broadcast to Open Ledger</button>
-            </div>
-
-            <!-- Platform Unit Economics -->
-            <div class="panel-box">
-                <div class="panel-title">Cooperative Advantage</div>
-                <div class="metric-item">
-                    <span style="color: #94a3b8;">Aggregator Cut:</span>
-                    <span style="color: #f87171; font-weight: bold;">25% – 30%</span>
-                </div>
-                <div class="metric-item">
-                    <span style="color: #94a3b8;">Coop Flat Fee:</span>
-                    <span style="color: #34d399; font-weight: bold;">₹15 – ₹25 / gig</span>
-                </div>
-                <div class="metric-item">
-                    <span style="color: #94a3b8;">Worker Net Share:</span>
-                    <span class="metric-val">~98.5%</span>
-                </div>
-                <div class="metric-item">
-                    <span style="color: #94a3b8;">Active Cooperatives:</span>
-                    <span class="metric-val">12 Fleets</span>
+                <div class="service-card" onclick="selectService('clean', this)">
+                    <div class="service-icon">🧹</div>
+                    <div class="service-name">Cleaning</div>
                 </div>
             </div>
 
+            <div class="booking-form">
+                <div id="dynamic-inputs">
+                    <!-- Default for Ride -->
+                    <div class="input-group">
+                        <label>Pickup Location</label>
+                        <input type="text" value="Dehradun, Clock Tower">
+                    </div>
+                    <div class="input-group">
+                        <label>Dropoff Location</label>
+                        <input type="text" placeholder="Where to? (e.g., Delhi, Airport)">
+                    </div>
+                </div>
+                
+                <button class="book-btn" onclick="requestService()">Find Worker (Zero Commission)</button>
+            </div>
+        </div>
+
+        <!-- Searching Overlay -->
+        <div class="overlay" id="search-view">
+            <div class="spinner" id="spinner"></div>
+            <h2 style="color: #0f172a; margin-bottom: 8px;" id="status-text">Broadcasting to Open Ledger...</h2>
+            <p style="color: #64748b; font-size: 14px; text-align: center;">Directly connecting you to independent cooperatives.</p>
+
+            <!-- Success Match Card -->
+            <div class="match-card" id="match-card">
+                <div class="worker-info">
+                    <div class="avatar">👨🏽‍✈️</div>
+                    <div>
+                        <div class="w-name" id="worker-name">Rahul Sharma (Independent Fleet)</div>
+                        <div class="w-rating">⭐ 4.9 (120 jobs) • 3 mins away</div>
+                    </div>
+                </div>
+
+                <!-- The Fair Fare Receipt -->
+                <div class="receipt">
+                    <div class="r-title">Cooperative Fair Fare</div>
+                    <div class="r-row">
+                        <span>Direct to Worker:</span>
+                        <span id="worker-cut">₹ 1,480</span>
+                    </div>
+                    <div class="r-row">
+                        <span>Platform Tech Fee:</span>
+                        <span>₹ 20</span>
+                    </div>
+                    <div class="r-row total">
+                        <span>You Pay:</span>
+                        <span id="total-pay">₹ 1,500</span>
+                    </div>
+                </div>
+
+                <div class="compare-text">Standard App Est: <strike>₹ 1,950</strike> (You save ₹ 450)</div>
+
+                <button class="book-btn" style="margin-bottom: 10px;" onclick="resetApp()">Pay & Confirm Job</button>
+                <button class="cancel-btn" onclick="resetApp()">Cancel Request</button>
+            </div>
         </div>
 
     </div>
 
-    <div id="toast"></div>
-
-   <script src="app.js"></script> 
+    <script src="app.js"></script>
 </body>
 </html>
-
-
