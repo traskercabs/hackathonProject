@@ -1,69 +1,381 @@
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        body { background: #0b0f19; color: #f1f5f9; min-height: 100vh; display: flex; flex-direction: column; }
+       * { 
+  box-sizing: border-box; 
+  margin: 0; 
+  padding: 0; 
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+}
 
-        /* Top Header */
-        header { background: #111827; border-bottom: 1px solid #1f2937; padding: 14px 28px; display: flex; justify-content: space-between; align-items: center; }
-        .logo-area { display: flex; align-items: center; gap: 12px; }
-        .logo-badge { background: linear-gradient(135deg, #2563eb, #38bdf8); color: #fff; font-weight: 800; font-size: 16px; padding: 6px 12px; border-radius: 8px; }
-        .title-text h1 { font-size: 18px; font-weight: 700; color: #fff; }
-        .title-text p { font-size: 12px; color: #94a3b8; }
+body { 
+  background: #0b0f19; 
+  color: #f1f5f9; 
+  min-height: 100vh; 
+  display: flex; 
+  flex-direction: column; 
+}
 
-        .header-stats { display: flex; gap: 20px; align-items: center; }
-        .stat-chip { background: #1f2937; padding: 6px 14px; border-radius: 20px; font-size: 13px; color: #38bdf8; border: 1px solid #374151; }
-        .wallet-pill { background: #064e3b; border: 1px solid #059669; color: #34d399; font-weight: 600; padding: 6px 16px; border-radius: 20px; font-size: 14px; }
+/* Top Header */
+header { 
+  background: #111827; 
+  border-bottom: 1px solid #1f2937; 
+  padding: 14px 28px; 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+}
 
-        /* Main Layout */
-        .container { flex: 1; display: grid; grid-template-columns: 260px 1fr 320px; gap: 20px; padding: 20px 28px; max-width: 1600px; margin: 0 auto; width: 100%; }
+.logo-area { 
+  display: flex; 
+  align-items: center; 
+  gap: 12px; 
+}
 
-        /* Left Navigation & Category Filter */
-        .sidebar { background: #111827; border: 1px solid #1f2937; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 6px; }
-        .nav-label { font-size: 11px; text-transform: uppercase; color: #64748b; font-weight: 700; margin: 12px 0 6px 8px; }
-        .cat-btn { display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; padding: 10px 14px; border-radius: 8px; border: 1px solid transparent; background: transparent; color: #94a3b8; font-size: 14px; cursor: pointer; transition: all 0.2s; }
-        .cat-btn:hover { background: #1f2937; color: #f1f5f9; }
-        .cat-btn.active { background: #1e3a8a; border-color: #3b82f6; color: #60a5fa; font-weight: 600; }
-        .cat-count { margin-left: auto; background: #374151; padding: 2px 7px; border-radius: 10px; font-size: 11px; color: #cbd5e1; }
+.logo-badge { 
+  background: linear-gradient(135deg, #2563eb, #38bdf8); 
+  color: #fff; 
+  font-weight: 800; 
+  font-size: 16px; 
+  padding: 6px 12px; 
+  border-radius: 8px; 
+}
 
-        /* Center: The Live Ledger */
-        .main-stage { display: flex; flex-direction: column; gap: 16px; }
-        .filter-bar { background: #111827; border: 1px solid #1f2937; border-radius: 12px; padding: 12px 18px; display: flex; justify-content: space-between; align-items: center; }
-        .filter-title { font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
-        .live-dot { width: 8px; height: 8px; background: #10b981; border-radius: 50%; box-shadow: 0 0 8px #10b981; }
+.title-text h1 { 
+  font-size: 18px; 
+  font-weight: 700; 
+  color: #fff; 
+}
 
-        .cards-grid { display: flex; flex-direction: column; gap: 12px; overflow-y: auto; max-height: calc(100vh - 210px); }
-        .job-card { background: #111827; border: 1px solid #1f2937; border-radius: 12px; padding: 18px; display: grid; grid-template-columns: 1fr auto; gap: 16px; transition: border-color 0.2s; }
-        .job-card:hover { border-color: #3b82f6; }
-        
-        .badge { display: inline-block; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 6px; margin-bottom: 8px; }
-        .badge-transport { background: #312e81; color: #a5b4fc; }
-        .badge-home { background: #701a75; color: #f472b6; }
-        .badge-cleaning { background: #064e3b; color: #6ee7b7; }
-        .badge-delivery { background: #78350f; color: #fcd34d; }
+.title-text p { 
+  font-size: 12px; 
+  color: #94a3b8; 
+}
 
-        .job-title { font-size: 16px; font-weight: 700; color: #f8fafc; margin-bottom: 4px; }
-        .job-details { font-size: 13px; color: #94a3b8; display: flex; gap: 16px; flex-wrap: wrap; margin-top: 6px; }
-        .job-details span { display: flex; align-items: center; gap: 4px; }
+.header-stats { 
+  display: flex; 
+  gap: 20px; 
+  align-items: center; 
+}
 
-        .action-pane { text-align: right; display: flex; flex-direction: column; justify-content: space-between; align-items: flex-end; }
-        .job-price { font-size: 22px; font-weight: 800; color: #34d399; }
-        .job-sub { font-size: 11px; color: #64748b; margin-bottom: 8px; }
-        .claim-btn { background: #2563eb; color: #fff; border: none; padding: 9px 18px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; transition: 0.2s; }
-        .claim-btn:hover { background: #1d4ed8; }
+.stat-chip { 
+  background: #1f2937; 
+  padding: 6px 14px; 
+  border-radius: 20px; 
+  font-size: 13px; 
+  color: #38bdf8; 
+  border: 1px solid #374151; 
+}
 
-        /* Right Panel: Post Job & Cooperative Metrics */
-        .right-panel { display: flex; flex-direction: column; gap: 16px; }
-        .panel-box { background: #111827; border: 1px solid #1f2937; border-radius: 12px; padding: 18px; }
-        .panel-title { font-size: 15px; font-weight: 700; margin-bottom: 12px; color: #f1f5f9; }
+.wallet-pill { 
+  background: #064e3b; 
+  border: 1px solid #059669; 
+  color: #34d399; 
+  font-weight: 600; 
+  padding: 6px 16px; 
+  border-radius: 20px; 
+  font-size: 14px; 
+}
 
-        .form-group { margin-bottom: 10px; }
-        .form-group label { display: block; font-size: 12px; color: #94a3b8; margin-bottom: 4px; }
-        .form-group select, .form-group input { width: 100%; background: #1f2937; border: 1px solid #374151; padding: 8px 12px; border-radius: 6px; color: #fff; font-size: 13px; outline: none; }
-        .post-btn { width: 100%; background: #059669; border: none; color: white; padding: 10px; border-radius: 6px; font-weight: 600; cursor: pointer; margin-top: 6px; transition: 0.2s; }
-        .post-btn:hover { background: #047857; }
+/* Main Layout */
+.container { 
+  flex: 1; 
+  display: grid; 
+  grid-template-columns: 260px 1fr 320px; 
+  gap: 20px; 
+  padding: 20px 28px; 
+  max-width: 1600px; 
+  margin: 0 auto; 
+  width: 100%; 
+}
 
-        .metric-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #1f2937; font-size: 13px; }
-        .metric-item:last-child { border-bottom: none; }
-        .metric-val { font-weight: 700; color: #38bdf8; }
+/* Left Navigation & Category Filter */
+.sidebar { 
+  background: #111827; 
+  border: 1px solid #1f2937; 
+  border-radius: 12px; 
+  padding: 16px; 
+  display: flex; 
+  flex-direction: column; 
+  gap: 6px; 
+}
 
-        /* Toast */
-        #toast { display: none; position: fixed; bottom: 24px; right: 24px; background: #059669; color: #fff; padding: 12px 20px; border-radius: 8px; font-size: 14px; font-weight: 500; box-shadow: 0 10px 25px rgba(0,0,0,0.5); z-index: 100; }
+.nav-label { 
+  font-size: 11px; 
+  text-transform: uppercase; 
+  color: #64748b; 
+  font-weight: 700; 
+  margin: 12px 0 6px 8px; 
+}
+
+.cat-btn { 
+  display: flex; 
+  align-items: center; 
+  gap: 10px; 
+  width: 100%; 
+  text-align: left; 
+  padding: 10px 14px; 
+  border-radius: 8px; 
+  border: 1px solid transparent; 
+  background: transparent; 
+  color: #94a3b8; 
+  font-size: 14px; 
+  cursor: pointer; 
+  transition: all 0.2s; 
+}
+
+.cat-btn:hover { 
+  background: #1f2937; 
+  color: #f1f5f9; 
+}
+
+.cat-btn.active { 
+  background: #1e3a8a; 
+  border-color: #3b82f6; 
+  color: #60a5fa; 
+  font-weight: 600; 
+}
+
+.cat-count { 
+  margin-left: auto; 
+  background: #374151; 
+  padding: 2px 7px; 
+  border-radius: 10px; 
+  font-size: 11px; 
+  color: #cbd5e1; 
+}
+
+/* Center: The Live Ledger */
+.main-stage { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 16px; 
+}
+
+.filter-bar { 
+  background: #111827; 
+  border: 1px solid #1f2937; 
+  border-radius: 12px; 
+  padding: 12px 18px; 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+}
+
+.filter-title { 
+  font-size: 16px; 
+  font-weight: 600; 
+  display: flex; 
+  align-items: center; 
+  gap: 8px; 
+}
+
+.live-dot { 
+  width: 8px; 
+  height: 8px; 
+  background: #10b981; 
+  border-radius: 50%; 
+  box-shadow: 0 0 8px #10b981; 
+}
+
+.cards-grid { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 12px; 
+  overflow-y: auto; 
+  max-height: calc(100vh - 210px); 
+}
+
+.job-card { 
+  background: #111827; 
+  border: 1px solid #1f2937; 
+  border-radius: 12px; 
+  padding: 18px; 
+  display: grid; 
+  grid-template-columns: 1fr auto; 
+  gap: 16px; 
+  transition: border-color 0.2s; 
+}
+
+.job-card:hover { 
+  border-color: #3b82f6; 
+}
+
+.badge { 
+  display: inline-block; 
+  font-size: 11px; 
+  font-weight: 600; 
+  padding: 3px 8px; 
+  border-radius: 6px; 
+  margin-bottom: 8px; 
+}
+
+.badge-transport { 
+  background: #312e81; 
+  color: #a5b4fc; 
+}
+
+.badge-home { 
+  background: #701a75; 
+  color: #f472b6; 
+}
+
+.badge-cleaning { 
+  background: #064e3b; 
+  color: #6ee7b7; 
+}
+
+.badge-delivery { 
+  background: #78350f; 
+  color: #fcd34d; 
+}
+
+.job-title { 
+  font-size: 16px; 
+  font-weight: 700; 
+  color: #f8fafc; 
+  margin-bottom: 4px; 
+}
+
+.job-details { 
+  font-size: 13px; 
+  color: #94a3b8; 
+  display: flex; 
+  gap: 16px; 
+  flex-wrap: wrap; 
+  margin-top: 6px; 
+}
+
+.job-details span { 
+  display: flex; 
+  align-items: center; 
+  gap: 4px; 
+}
+
+.action-pane { 
+  text-align: right; 
+  display: flex; 
+  flex-direction: column; 
+  justify-content: space-between; 
+  align-items: flex-end; 
+}
+
+.job-price { 
+  font-size: 22px; 
+  font-weight: 800; 
+  color: #34d399; 
+}
+
+.job-sub { 
+  font-size: 11px; 
+  color: #64748b; 
+  margin-bottom: 8px; 
+}
+
+.claim-btn { 
+  background: #2563eb; 
+  color: #fff; 
+  border: none; 
+  padding: 9px 18px; 
+  border-radius: 8px; 
+  font-size: 13px; 
+  font-weight: 600; 
+  cursor: pointer; 
+  transition: 0.2s; 
+}
+
+.claim-btn:hover { 
+  background: #1d4ed8; 
+}
+
+/* Right Panel: Post Job & Cooperative Metrics */
+.right-panel { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 16px; 
+}
+
+.panel-box { 
+  background: #111827; 
+  border: 1px solid #1f2937; 
+  border-radius: 12px; 
+  padding: 18px; 
+}
+
+.panel-title { 
+  font-size: 15px; 
+  font-weight: 700; 
+  margin-bottom: 12px; 
+  color: #f1f5f9; 
+}
+
+.form-group { 
+  margin-bottom: 10px; 
+}
+
+.form-group label { 
+  display: block; 
+  font-size: 12px; 
+  color: #94a3b8; 
+  margin-bottom: 4px; 
+}
+
+.form-group select, 
+.form-group input { 
+  width: 100%; 
+  background: #1f2937; 
+  border: 1px solid #374151; 
+  padding: 8px 12px; 
+  border-radius: 6px; 
+  color: #fff; 
+  font-size: 13px; 
+  outline: none; 
+}
+
+.post-btn { 
+  width: 100%; 
+  background: #059669; 
+  border: none; 
+  color: white; 
+  padding: 10px; 
+  border-radius: 6px; 
+  font-weight: 600; 
+  cursor: pointer; 
+  margin-top: 6px; 
+  transition: 0.2s; 
+}
+
+.post-btn:hover { 
+  background: #047857; 
+}
+
+.metric-item { 
+  display: flex; 
+  justify-content: space-between; 
+  padding: 8px 0; 
+  border-bottom: 1px solid #1f2937; 
+  font-size: 13px; 
+}
+
+.metric-item:last-child { 
+  border-bottom: none; 
+}
+
+.metric-val { 
+  font-weight: 700; 
+  color: #38bdf8; 
+}
+
+/* Toast */
+#toast { 
+  display: none; 
+  position: fixed; 
+  bottom: 24px; 
+  right: 24px; 
+  background: #059669; 
+  color: #fff; 
+  padding: 12px 20px; 
+  border-radius: 8px; 
+  font-size: 14px; 
+  font-weight: 500; 
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5); 
+  z-index: 100; 
+}
