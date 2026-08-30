@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoopGig - Customer App</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Small inline additions to handle the new categorized layout cleanly */
+        .category-title { font-size: 14px; font-weight: 600; color: #64748b; margin: 20px 0 10px 0; text-transform: uppercase; letter-spacing: 0.5px; }
+        .service-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 12px; margin-bottom: 20px; }
+        .service-card { text-align: center; padding: 12px 8px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; cursor: pointer; transition: all 0.2s ease; }
+        .service-card:hover { border-color: #cbd5e1; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
+        .service-card.active { border-color: #3b82f6; background: #eff6ff; box-shadow: 0 0 0 1px #3b82f6; }
+        .service-icon { font-size: 24px; margin-bottom: 6px; }
+        .service-name { font-size: 11px; font-weight: 500; color: #334155; line-height: 1.2; }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <header>
+            <div class="logo">CoopGig</div>
+            <button class="profile-btn">Arsh's Account</button>
+        </header>
+
+        <div class="content" id="main-view" style="overflow-y: auto; max-height: calc(100vh - 60px); padding-bottom: 40px;">
+            <h1 style="margin-bottom: 4px;">What do you need?</h1>
+            <p style="font-size: 13px; color: #64748b; margin-bottom: 16px;">Directly hire independent local professionals.</p>
+            
+            <!-- Transport & Rides -->
+            <div class="category-title">Transport</div>
+            <div class="service-grid">
+                <div class="service-card active" onclick="selectService('ride', this)">
+                    <div class="service-icon">🚕</div>
+                    <div class="service-name">Ride Hailing</div>
+                </div>
+                <div class="service-card" onclick="selectService('ride', this)">
+                    <div class="service-icon">🚗</div>
+                    <div class="service-name">Car Pickup</div>
+                </div>
+            </div>
+
+            <!-- Errands & Delivery -->
+            <div class="category-title">Errands & Delivery</div>
+            <div class="service-grid">
+                <div class="service-card" onclick="selectService('delivery', this)">
+                    <div class="service-icon">🛵</div>
+                    <div class="service-name">Groceries</div>
+                </div>
+                <div class="service-card" onclick="selectService('delivery', this)">
+                    <div class="service-icon">🍱</div>
+                    <div class="service-name">Meals</div>
+                </div>
+                <div class="service-card" onclick="selectService('delivery', this)">
+                    <div class="service-icon">🛒</div>
+                    <div class="service-name">Shopping</div>
+                </div>
+                <div class="service-card" onclick="selectService('delivery', this)">
+                    <div class="service-icon">🧺</div>
+                    <div class="service-name">Laundry</div>
+                </div>
+                <div class="service-card" onclick="selectService('delivery', this)">
+                    <div class="service-icon">📦</div>
+                    <div class="service-name">Courier</div>
+                </div>
+            </div>
+
+            <!-- Home & Maintenance -->
+            <div class="category-title">Home Maintenance</div>
+            <div class="service-grid">
+                <div class="service-card" onclick="selectService('home', this)">
+                    <div class="service-icon">🧹</div>
+                    <div class="service-name">Cleaning</div>
+                </div>
+                <div class="service-card" onclick="selectService('home', this)">
+                    <div class="service-icon">🔧</div>
+                    <div class="service-name">Electrician</div>
+                </div>
+                <div class="service-card" onclick="selectService('home', this)">
+                    <div class="service-icon">🚰</div>
+                    <div class="service-name">Plumber</div>
+                </div>
+                <div class="service-card" onclick="selectService('home', this)">
+                    <div class="service-icon">❄️</div>
+                    <div class="service-name">AC Repair</div>
+                </div>
+                <div class="service-card" onclick="selectService('home', this)">
+                    <div class="service-icon">💻</div>
+                    <div class="service-name">PC Repair</div>
+                </div>
+                <div class="service-card" onclick="selectService('home', this)">
+                    <div class="service-icon">🔑</div>
+                    <div class="service-name">Locksmith</div>
+                </div>
+                <div class="service-card" onclick="selectService('home', this)">
+                    <div class="service-icon">🪑</div>
+                    <div class="service-name">Assembly</div>
+                </div>
+                <div class="service-card" onclick="selectService('home', this)">
+                    <div class="service-icon">🌱</div>
+                    <div class="service-name">Gardening</div>
+                </div>
+                <div class="service-card" onclick="selectService('home', this)">
+                    <div class="service-icon">🚗</div>
+                    <div class="service-name">Car Wash</div>
+                </div>
+            </div>
+
+            <!-- Care & Learning -->
+            <div class="category-title">Care & Learning</div>
+            <div class="service-grid">
+                <div class="service-card" onclick="selectService('care', this)">
+                    <div class="service-icon">🐕</div>
+                    <div class="service-name">Pet Care</div>
+                </div>
+                <div class="service-card" onclick="selectService('care', this)">
+                    <div class="service-icon">👴</div>
+                    <div class="service-name">Elder Care</div>
+                </div>
+                <div class="service-card" onclick="selectService('care', this)">
+                    <div class="service-icon">📚</div>
+                    <div class="service-name">Tutoring</div>
+                </div>
+            </div>
+
+            <!-- Beauty & Creative -->
+            <div class="category-title">Beauty & Creative</div>
+            <div class="service-grid">
+                <div class="service-card" onclick="selectService('beauty', this)">
+                    <div class="service-icon">💇</div>
+                    <div class="service-name">Salon</div>
+                </div>
+                <div class="service-card" onclick="selectService('creative', this)">
+                    <div class="service-icon">📸</div>
+                    <div class="service-name">Photography</div>
+                </div>
+            </div>
+
+            <div class="booking-form" style="margin-top: 10px;">
+                <div id="dynamic-inputs">
+                    <!-- Default for Ride -->
+                    <div class="input-group">
+                        <label>Pickup Location</label>
+                        <input type="text" value="Dehradun, Clock Tower">
+                    </div>
+                    <div class="input-group">
+                        <label>Dropoff Location</label>
+                        <input type="text" placeholder="Where to? (e.g., Delhi, Airport)">
+                    </div>
+                </div>
+                
+                <button class="book-btn" onclick="requestService()">Find Worker (Zero Commission)</button>
+            </div>
+        </div>
+
+        <!-- Searching Overlay -->
+        <div class="overlay" id="search-view">
+            <div class="spinner" id="spinner"></div>
+            <h2 style="color: #0f172a; margin-bottom: 8px;" id="status-text">Broadcasting to Open Ledger...</h2>
+            <p style="color: #64748b; font-size: 14px; text-align: center;">Directly connecting you to independent cooperatives.</p>
+
+            <!-- Success Match Card -->
+            <div class="match-card" id="match-card">
+                <div class="worker-info">
+                    <div class="avatar">👨🏽‍✈️</div>
+                    <div>
+                        <div class="w-name" id="worker-name">Rahul Sharma (Independent Fleet)</div>
+                        <div class="w-rating">⭐ 4.9 (120 jobs) • 3 mins away</div>
+                    </div>
+                </div>
+
+                <!-- The Fair Fare Receipt -->
+                <div class="receipt">
+                    <div class="r-title">Cooperative Fair Fare</div>
+                    <div class="r-row">
+                        <span>Direct to Worker:</span>
+                        <span id="worker-cut">₹ 1,480</span>
+                    </div>
+                    <div class="r-row">
+                        <span>Platform Tech Fee:</span>
+                        <span>₹ 20</span>
+                    </div>
+                    <div class="r-row total">
+                        <span>You Pay:</span>
+                        <span id="total-pay">₹ 1,500</span>
+                    </div>
+                </div>
+
+                <div class="compare-text">Standard App Est: <strike>₹ 1,950</strike> (You save ₹ 450)</div>
+
+                <button class="book-btn" style="margin-bottom: 10px;" onclick="resetApp()">Pay & Confirm Job</button>
+                <button class="cancel-btn" onclick="resetApp()">Cancel Request</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

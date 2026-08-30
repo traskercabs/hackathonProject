@@ -3,99 +3,329 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CoopGig - Customer App</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="author" content="Uniters">
+    <meta name="description" content="CoopGig - Smart India Hackathon Prototype | Faculty of Technology | Cyber Security">
+    <title>CoopGig | Operator Control Center</title>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { background: #0a0a0a; color: #ededed; height: 100vh; display: flex; flex-direction: column; overflow: hidden; -webkit-font-smoothing: antialiased; }
+        
+        .demo-header { background: #111; border-bottom: 1px solid #333; padding: 12px 24px; display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 600; color: #888; }
+        .demo-header .live-badge { background: rgba(239, 68, 68, 0.15); color: #ef4444; padding: 4px 10px; border-radius: 4px; border: 1px solid rgba(239, 68, 68, 0.3); display: flex; align-items: center; gap: 6px; }
+        .demo-header .live-badge::before { content: ''; display: block; width: 6px; height: 6px; background: #ef4444; border-radius: 50%; box-shadow: 0 0 8px #ef4444; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+
+        /* Recreated Image Header Setup */
+        .desk-header { background: #050505; border-bottom: 1px solid #222; padding: 20px 32px; display: flex; justify-content: space-between; align-items: center; }
+        .logo-area { display: flex; align-items: center; gap: 20px; }
+        .logo-badge { background: #ffffff; color: #000000; font-weight: 800; font-size: 14px; padding: 8px 12px; border-radius: 4px; text-transform: uppercase; letter-spacing: 1px; }
+        .title-text h1 { font-size: 18px; font-weight: 700; color: #ffffff; margin-bottom: 6px; }
+        .title-text p { font-size: 13px; color: #888888; line-height: 1.5; }
+        
+        .wallet-pill { background: #000; border: 1px solid #333; padding: 10px 16px; border-radius: 6px; font-size: 13px; font-weight: 600; display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+        .wallet-pill span { color: #34d399; font-size: 15px; }
+
+        .desk-body { flex: 1; display: grid; grid-template-columns: 280px minmax(0, 1fr); overflow: hidden; max-width: 1600px; margin: 0 auto; width: 100%; }
+        
+        .sidebar { background: #0f0f0f; border-right: 1px solid #222; border-left: 1px solid #222; padding: 24px; overflow-y: auto; }
+        .sidebar::-webkit-scrollbar { width: 6px; }
+        .sidebar::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        
+        .nav-label { font-size: 10px; text-transform: uppercase; color: #666; font-weight: 700; letter-spacing: 1px; margin-bottom: 12px; margin-top: 24px; }
+        .nav-label:first-child { margin-top: 0; }
+        
+        .cat-btn { display: flex; justify-content: space-between; width: 100%; text-align: left; padding: 8px 12px; border-radius: 6px; border: 1px solid transparent; background: transparent; color: #888; font-size: 13px; cursor: pointer; margin-bottom: 4px; transition: 0.2s; }
+        .cat-btn:hover { background: #1a1a1a; color: #ededed; }
+        .cat-btn.active { background: #1a1a1a; border-color: #333; color: #ededed; font-weight: 600; }
+        
+        .metric-card { padding: 12px; border-radius: 6px; margin-bottom: 8px; font-size: 13px; display: flex; justify-content: space-between; }
+        .metric-card.aggregator { background: rgba(239, 68, 68, 0.05); border: 1px solid rgba(239, 68, 68, 0.2); color: #888; }
+        .metric-card.aggregator .val { color: #ef4444; text-decoration: line-through; }
+        .metric-card.coopgig { background: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.2); color: #ededed; }
+        .metric-card.coopgig .val { color: #34d399; font-weight: 600; }
+        .metric-card.saved { background: rgba(59, 130, 246, 0.05); border: 1px solid rgba(59, 130, 246, 0.2); color: #ededed; margin-bottom: 24px; }
+        .metric-card.saved .val { color: #60a5fa; font-weight: 700; font-size: 15px; }
+
+        .main-stage { padding: 32px; overflow-y: auto; position: relative; }
+        
+        .active-job-panel { background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 8px; padding: 20px; margin-bottom: 24px; display: none; align-items: center; justify-content: space-between; }
+        .active-job-panel.show { display: flex; }
+        .aj-title { font-size: 18px; font-weight: 600; color: #60a5fa; margin-bottom: 4px; }
+        .aj-details { font-size: 13px; color: #a0aec0; }
+        .btn-complete { background: #3b82f6; color: #fff; padding: 12px 24px; border-radius: 6px; border: none; font-weight: 600; font-size: 14px; cursor: pointer; }
+        .btn-complete:hover { background: #2563eb; }
+
+        .filter-bar { display: flex; justify-content: space-between; border-bottom: 1px solid #222; padding-bottom: 16px; margin-bottom: 16px; align-items: center; }
+        .filter-title { font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+        .live-dot { width: 8px; height: 8px; background: #34d399; border-radius: 50%; box-shadow: 0 0 8px rgba(52, 211, 153, 0.5); }
+        
+        .sort-dropdown { background: #0f0f0f; border: 1px solid #333; color: #ededed; padding: 6px 12px; border-radius: 6px; font-size: 12px; outline: none; }
+
+        .job-card { background: #0f0f0f; border: 1px solid #222; border-radius: 8px; padding: 20px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; transition: 0.2s; }
+        .job-card:hover { border-color: #444; background: #111; transform: translateY(-1px); }
+        
+        .badge { display: inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase; padding: 4px 8px; border-radius: 4px; margin-bottom: 12px; margin-right: 8px;}
+        .badge-transport { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
+        .badge-delivery { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+        .badge-home { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+        .badge-care { background: rgba(236, 72, 153, 0.15); color: #f472b6; border: 1px solid rgba(236, 72, 153, 0.3); }
+        .badge-beauty { background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); }
+        .badge-creative { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+        .badge-tech { background: rgba(14, 165, 233, 0.15); color: #38bdf8; border: 1px solid rgba(14, 165, 233, 0.3); }
+        .badge-fitness { background: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.3); }
+        .badge-events { background: rgba(249, 115, 22, 0.15); color: #fb923c; border: 1px solid rgba(249, 115, 22, 0.3); }
+        .badge-auto { background: rgba(100, 116, 139, 0.15); color: #94a3b8; border: 1px solid rgba(100, 116, 139, 0.3); }
+        .badge-consult { background: rgba(139, 92, 246, 0.15); color: #a78bfa; border: 1px solid rgba(139, 92, 246, 0.3); }
+        .badge-pets { background: rgba(217, 70, 239, 0.15); color: #e879f9; border: 1px solid rgba(217, 70, 239, 0.3); }
+        
+        .urgent-badge { background: rgba(220, 38, 38, 0.2); color: #fca5a5; border: 1px solid rgba(220, 38, 38, 0.4); }
+
+        .job-title { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+        .job-details { font-size: 13px; color: #888; }
+        
+        .action-pane { text-align: right; display: flex; flex-direction: column; align-items: flex-end; }
+        .job-price { font-size: 20px; font-weight: 700; margin-bottom: 4px; color: #fff; }
+        .job-sub { font-size: 11px; color: #666; margin-bottom: 12px; }
+        .claim-btn { background: #ffffff; color: #000000; border: none; padding: 10px 20px; border-radius: 6px; font-size: 13px; font-weight: 700; cursor: pointer; transition: 0.2s; }
+        .claim-btn:hover { background: #34d399; color: #000; }
+        
+        @keyframes highlightNew { 0% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.7); border-color: #34d399; } 70% { box-shadow: 0 0 0 10px rgba(52, 211, 153, 0); } 100% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0); } }
+        .job-new { animation: highlightNew 2s ease-out; border-color: #34d399; }
+    </style>
 </head>
 <body>
 
-    <div class="app-container">
-        
-        <header>
-            <div class="logo">CoopGig</div>
-            <button class="profile-btn">Arsh's Account</button>
-        </header>
-
-        <div class="content" id="main-view">
-            <h1>What do you need?</h1>
-            
-            <div class="service-grid">
-                <div class="service-card active" onclick="selectService('ride', this)">
-                    <div class="service-icon">🚖</div>
-                    <div class="service-name">Ride / Cab</div>
-                </div>
-                <div class="service-card" onclick="selectService('delivery', this)">
-                    <div class="service-icon">📦</div>
-                    <div class="service-name">Delivery</div>
-                </div>
-                <div class="service-card" onclick="selectService('home', this)">
-                    <div class="service-icon">⚡</div>
-                    <div class="service-name">Home Repair</div>
-                </div>
-                <div class="service-card" onclick="selectService('clean', this)">
-                    <div class="service-icon">🧹</div>
-                    <div class="service-name">Cleaning</div>
-                </div>
-            </div>
-
-            <div class="booking-form">
-                <div id="dynamic-inputs">
-                    <!-- Default for Ride -->
-                    <div class="input-group">
-                        <label>Pickup Location</label>
-                        <input type="text" value="Dehradun, Clock Tower">
-                    </div>
-                    <div class="input-group">
-                        <label>Dropoff Location</label>
-                        <input type="text" placeholder="Where to? (e.g., Delhi, Airport)">
-                    </div>
-                </div>
-                
-                <button class="book-btn" onclick="requestService()">Find Worker (Zero Commission)</button>
-            </div>
-        </div>
-
-        <!-- Searching Overlay -->
-        <div class="overlay" id="search-view">
-            <div class="spinner" id="spinner"></div>
-            <h2 style="color: #0f172a; margin-bottom: 8px;" id="status-text">Broadcasting to Open Ledger...</h2>
-            <p style="color: #64748b; font-size: 14px; text-align: center;">Directly connecting you to independent cooperatives.</p>
-
-            <!-- Success Match Card -->
-            <div class="match-card" id="match-card">
-                <div class="worker-info">
-                    <div class="avatar">👨🏽‍✈️</div>
-                    <div>
-                        <div class="w-name" id="worker-name">Rahul Sharma (Independent Fleet)</div>
-                        <div class="w-rating">⭐ 4.9 (120 jobs) • 3 mins away</div>
-                    </div>
-                </div>
-
-                <!-- The Fair Fare Receipt -->
-                <div class="receipt">
-                    <div class="r-title">Cooperative Fair Fare</div>
-                    <div class="r-row">
-                        <span>Direct to Worker:</span>
-                        <span id="worker-cut">₹ 1,480</span>
-                    </div>
-                    <div class="r-row">
-                        <span>Platform Tech Fee:</span>
-                        <span>₹ 20</span>
-                    </div>
-                    <div class="r-row total">
-                        <span>You Pay:</span>
-                        <span id="total-pay">₹ 1,500</span>
-                    </div>
-                </div>
-
-                <div class="compare-text">Standard App Est: <strike>₹ 1,950</strike> (You save ₹ 450)</div>
-
-                <button class="book-btn" style="margin-bottom: 10px;" onclick="resetApp()">Pay & Confirm Job</button>
-                <button class="cancel-btn" onclick="resetApp()">Cancel Request</button>
-            </div>
-        </div>
-
+    <div class="demo-header">
+        <div>Smart India Hackathon 2026 Prototype | Faculty of Technology, Dehradun</div>
+        <div class="live-badge">SYNCED LIVE WITH CUSTOMER PORTAL</div>
+        <div>Uniters</div>
     </div>
 
-    <script src="app.js"></script>
+    <div class="desk-header">
+        <div class="logo-area">
+            <div class="logo-badge">COOPGIG</div>
+            <div class="title-text">
+                <h1>CoopGig by Uniters</h1>
+                <p>Zero-Commission • Open Market Dispatch • Flat SaaS Micro-Fees<br>
+                One Platform For Every Local Service — From Rides And Deliveries To Home, Care, And Professional Services</p>
+            </div>
+        </div>
+        <div class="wallet-pill">
+            <div style="font-size: 11px; color: #888; font-weight: 500;">Prepaid SaaS Balance</div>
+            <span id="wallet-bal">₹ 850.00</span>
+        </div>
+    </div>
+
+    <div class="desk-body">
+        <div class="sidebar">
+            <div class="nav-label">Marketplace Verticals (12)</div>
+            <button class="cat-btn active" onclick="filterLedger('all', this)"><span>All Open Leads</span> <span id="count-all">0</span></button>
+            <button class="cat-btn" onclick="filterLedger('transport', this)"><span>Transport & Rides</span> <span id="count-transport">0</span></button>
+            <button class="cat-btn" onclick="filterLedger('delivery', this)"><span>Errands & Delivery</span> <span id="count-delivery">0</span></button>
+            <button class="cat-btn" onclick="filterLedger('home', this)"><span>Home & Maintenance</span> <span id="count-home">0</span></button>
+            <button class="cat-btn" onclick="filterLedger('care', this)"><span>Care & Education</span> <span id="count-care">0</span></button>
+            <button class="cat-btn" onclick="filterLedger('beauty', this)"><span>Beauty & Grooming</span> <span id="count-beauty">0</span></button>
+            <button class="cat-btn" onclick="filterLedger('creative', this)"><span>Creative & Events</span> <span id="count-creative">0</span></button>
+            <button class="cat-btn" onclick="filterLedger('tech', this)"><span>Tech & IT Support</span> <span id="count-tech">0</span></button>
+            <button class="cat-btn" onclick="filterLedger('fitness', this)"><span>Fitness & Health</span> <span id="count-fitness">0</span></button>
+            <button class="cat-btn" onclick="filterLedger('events', this)"><span>Event Staffing</span> <span id="count-events">0</span></button>
+            <button class="cat-btn" onclick="filterLedger('auto', this)"><span>Auto Repairs</span> <span id="count-auto">0</span></button>
+            <button class="cat-btn" onclick="filterLedger('consult', this)"><span>Consulting</span> <span id="count-consult">0</span></button>
+            <button class="cat-btn" onclick="filterLedger('pets', this)"><span>Pet Services</span> <span id="count-pets">0</span></button>
+            
+            <div class="nav-label">Platform Economics</div>
+            <div class="metric-card aggregator"><span>Aggregator Cut:</span><span class="val">25% – 30%</span></div>
+            <div class="metric-card coopgig"><span>CoopGig Flat Fee:</span><span class="val">₹15 – ₹25 / gig</span></div>
+            <div class="metric-card saved"><span>Worker Wealth Saved:</span><span class="val" id="total-saved">₹ 4,320</span></div>
+        </div>
+
+        <div class="main-stage">
+            <div class="active-job-panel" id="active-panel">
+                <div>
+                    <div class="badge badge-delivery" style="margin-bottom: 8px;" id="aj-badge">ACTIVE GIG</div>
+                    <div class="aj-title" id="aj-title">Task Title</div>
+                    <div class="aj-details" id="aj-details">Details • ₹ Price</div>
+                </div>
+                <button class="btn-complete" onclick="markJobComplete()">Mark Task Completed</button>
+            </div>
+
+            <div class="filter-bar">
+                <div class="filter-title"><div class="live-dot"></div> <span id="ledger-title">Live Open Ledger (All Verticals)</span></div>
+                
+                <div style="display: flex; gap: 12px; align-items: center;">
+                    <span style="font-size: 12px; color: #888;">0% Commission</span>
+                    <select class="sort-dropdown" id="sort-select" onchange="updateLedger()">
+                        <option value="newest">Sort: Newest First</option>
+                        <option value="highest">Sort: Highest Payout</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="ledger-container">
+                <!-- Ledger cards populated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const categories = {
+            transport: { id: 'transport', name: 'Transport & Rides', badgeClass: 'badge-transport', fee: 20 },
+            delivery:  { id: 'delivery', name: 'Errands & Delivery', badgeClass: 'badge-delivery', fee: 15 },
+            home:      { id: 'home', name: 'Home & Maintenance', badgeClass: 'badge-home', fee: 15 },
+            care:      { id: 'care', name: 'Care & Education', badgeClass: 'badge-care', fee: 15 },
+            beauty:    { id: 'beauty', name: 'Beauty & Grooming', badgeClass: 'badge-beauty', fee: 25 },
+            creative:  { id: 'creative', name: 'Creative & Events', badgeClass: 'badge-creative', fee: 25 },
+            tech:      { id: 'tech', name: 'Tech & IT Support', badgeClass: 'badge-tech', fee: 20 },
+            fitness:   { id: 'fitness', name: 'Fitness & Health', badgeClass: 'badge-fitness', fee: 20 },
+            events:    { id: 'events', name: 'Event Staffing', badgeClass: 'badge-events', fee: 20 },
+            auto:      { id: 'auto', name: 'Auto Repairs', badgeClass: 'badge-auto', fee: 25 },
+            consult:   { id: 'consult', name: 'Consulting', badgeClass: 'badge-consult', fee: 25 },
+            pets:      { id: 'pets', name: 'Pet Services', badgeClass: 'badge-pets', fee: 15 }
+        };
+
+        const initialDummyJobs = [
+            { id: 101, catId: 'home', title: '❄️ AC repair & servicing', details: 'Split AC gas refill • Vasant Vihar', price: 1200, urgent: false },
+            { id: 102, catId: 'auto', title: '🛠️ Flat Tire Assistance', details: 'Stuck near ISBT, need stepney changed', price: 400, urgent: true },
+            { id: 103, catId: 'transport', title: '🚗 Outstation Drop', details: 'Drive my car to Delhi airport', price: 2500, urgent: false },
+            { id: 104, catId: 'tech', title: '💻 Wi-Fi Router Setup', details: 'Configure new dual-band router • Clement Town', price: 500, urgent: false }
+        ];
+
+        let openJobs = [];
+        let currentFilter = 'all';
+        let activeJob = null;
+        let operatorWallet = 850;
+        let totalWorkerSavings = 4320;
+
+        function initStorage() {
+            if (!localStorage.getItem('coopgig_jobs_v2')) localStorage.setItem('coopgig_jobs_v2', JSON.stringify(initialDummyJobs));
+            if (!localStorage.getItem('coopgig_wallet')) localStorage.setItem('coopgig_wallet', '850');
+            if (!localStorage.getItem('coopgig_savings')) localStorage.setItem('coopgig_savings', '4320');
+            localStorage.setItem('coopgig_sync_status', 'idle');
+            loadData();
+        }
+
+        function loadData() {
+            openJobs = JSON.parse(localStorage.getItem('coopgig_jobs_v2')) || [];
+            operatorWallet = parseFloat(localStorage.getItem('coopgig_wallet')) || 850;
+            totalWorkerSavings = parseFloat(localStorage.getItem('coopgig_savings')) || 4320;
+            updateLedger();
+            updateStats();
+        }
+
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'coopgig_jobs_v2') { loadData(); }
+        });
+
+        function filterLedger(catId, btnEl) {
+            currentFilter = catId;
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            if(btnEl) btnEl.classList.add('active');
+            document.getElementById('ledger-title').innerText = catId === 'all' ? 'Live Open Ledger (All Verticals)' : `Live ${categories[catId].name} Leads`;
+            updateLedger();
+        }
+
+        function updateLedger() {
+            const container = document.getElementById('ledger-container');
+            const sortMode = document.getElementById('sort-select').value;
+            
+            let filtered = currentFilter === 'all' ? [...openJobs] : openJobs.filter(j => j.catId === currentFilter);
+            
+            // New Sorting Feature
+            if (sortMode === 'highest') {
+                filtered.sort((a, b) => b.price - a.price);
+            } else {
+                // Newest first (assuming higher ID = newer)
+                filtered.sort((a, b) => b.id - a.id);
+            }
+            
+            if (filtered.length === 0) {
+                container.innerHTML = '<div style="text-align:center; padding:40px; color:#666; font-size:13px;">No open leads in this category.</div>';
+            } else {
+                container.innerHTML = filtered.map(job => {
+                    const cat = categories[job.catId];
+                    const urgentBadge = job.urgent ? `<span class="badge urgent-badge">🚨 PRIORITY</span>` : '';
+                    return `
+                    <div class="job-card ${job.isNew ? 'job-new' : ''}">
+                        <div>
+                            ${urgentBadge}
+                            <span class="badge ${cat.badgeClass}">${cat.name}</span>
+                            <div class="job-title">${job.title}</div>
+                            <div class="job-details">${job.details}</div>
+                        </div>
+                        <div class="action-pane">
+                            <div class="job-price">₹ ${job.price.toLocaleString()}</div>
+                            <div class="job-sub">SaaS Micro-Fee: ₹${cat.fee}</div>
+                            <button class="claim-btn" onclick="claimJob(${job.id})">Claim Gig</button>
+                        </div>
+                    </div>`;
+                }).join('');
+            }
+            
+            if (openJobs.some(j => j.isNew)) {
+                openJobs.forEach(j => j.isNew = false);
+                localStorage.setItem('coopgig_jobs_v2', JSON.stringify(openJobs));
+            }
+            updateSidebarCounts();
+        }
+
+        function updateSidebarCounts() {
+            document.getElementById('count-all').innerText = openJobs.length;
+            Object.keys(categories).forEach(cat => {
+                const el = document.getElementById(`count-${cat}`);
+                if(el) el.innerText = openJobs.filter(j => j.catId === cat).length;
+            });
+        }
+
+        function updateStats() {
+            document.getElementById('wallet-bal').innerText = `₹ ${operatorWallet.toFixed(2)}`;
+            document.getElementById('total-saved').innerText = `₹ ${Math.round(totalWorkerSavings).toLocaleString()}`;
+        }
+
+        function claimJob(id) {
+            const jobIndex = openJobs.findIndex(j => j.id === id);
+            activeJob = openJobs[jobIndex];
+            const fee = categories[activeJob.catId].fee;
+
+            if (operatorWallet < fee) { alert('Wallet balance too low for SaaS fee. Recharge needed.'); return; }
+
+            operatorWallet -= fee;
+            openJobs.splice(jobIndex, 1);
+            
+            localStorage.setItem('coopgig_wallet', operatorWallet);
+            localStorage.setItem('coopgig_jobs_v2', JSON.stringify(openJobs));
+            localStorage.setItem('coopgig_sync_status', 'matched');
+            localStorage.setItem('coopgig_active_job', JSON.stringify(activeJob));
+            
+            updateLedger();
+            updateStats();
+
+            const panel = document.getElementById('active-panel');
+            document.getElementById('aj-badge').className = `badge ${categories[activeJob.catId].badgeClass}`;
+            document.getElementById('aj-badge').innerText = `IN PROGRESS: ${categories[activeJob.catId].name}`;
+            document.getElementById('aj-title').innerText = activeJob.title;
+            document.getElementById('aj-details').innerText = `Customer Agreed Price: ₹${activeJob.price} • Micro-Fee Paid: ₹${fee}`;
+            panel.classList.add('show');
+        }
+
+        function markJobComplete() {
+            document.getElementById('active-panel').classList.remove('show');
+            
+            const fee = categories[activeJob.catId].fee;
+            const aggregatorCut = activeJob.price * 0.25;
+            const savedThisJob = aggregatorCut - fee;
+            
+            if (savedThisJob > 0) totalWorkerSavings += savedThisJob;
+            localStorage.setItem('coopgig_savings', totalWorkerSavings);
+            localStorage.setItem('coopgig_sync_status', 'completed'); 
+            
+            updateStats();
+            activeJob = null;
+        }
+
+        initStorage();
+    </script>
 </body>
 </html>

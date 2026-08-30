@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoopGig by Team Trasker — Open Gig-Services Cooperative</title>
+    <style>
+        /* ==========================================================================
+           Base & Reset
+           ========================================================================== */
+       @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+    background: #151515;
+    color: #ededed;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ==========================================================================
+   Header
+   ========================================================================== */
+header {
+    background: #050505;
+    border-bottom: 1px solid #1a1a1a;
+    padding: 16px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.logo-area {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.logo-badge {
+    background: #ededed;
+    color: #000000;
+    font-weight: 700;
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.title-text h1 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #ededed;
+    letter-spacing: -0.5px;
+}
+
+.title-text p {
+    font-size: 12px;
+    color: #888888;
+    margin-top: 2px;
+}
+
+.header-stats {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.wallet-pill {
+    background: #0a0a0a;
+    border: 1px solid #333;
+    color: #ededed;
+    font-weight: 500;
+    padding: 6px 16px;
+    border-radius: 4px;
+    font-size: 13px;
+}
+
+/* ==========================================================================
+   Main Layout Grid
+   ========================================================================== */
+.container {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 260px minmax(0, 1fr);
+    gap: 40px;
+    padding: 32px;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* ==========================================================================
+   Left Sidebar
+   ========================================================================== */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.sidebar-box {
+    background: transparent;
+    border: none;
+    padding: 0;
+}
+
+.nav-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    color: #666;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin: 0 0 12px 0;
+}
+
+.cat-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    text-align: left;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: #888888;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    margin-bottom: 2px;
+}
+
+.cat-btn:hover {
+    color: #ededed;
+    background: #0a0a0a;
+    border-color: #222;
+}
+
+.cat-btn.active {
+    background: #0f0f0f;
+    border-color: #333;
+    color: #ededed;
+    font-weight: 500;
+}
+
+.cat-count {
+    margin-left: auto;
+    color: #555555;
+    font-size: 11px;
+    font-family: monospace;
+}
+
+.metric-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #1a1a1a;
+    font-size: 13px;
+    color: #888888;
+}
+
+.metric-item:last-child {
+    border-bottom: none;
+}
+
+.metric-val {
+    font-weight: 500;
+    color: #ededed;
+}
+
+/* ==========================================================================
+   Center Panel
+   ========================================================================== */
+.main-stage {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    min-width: 0;
+}
+
+.quick-post-bar {
+    background: #0a0a0a;
+    border: 1px solid #222;
+    border-radius: 8px;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 1.5fr 2fr 1fr auto;
+    gap: 16px;
+    align-items: end;
+}
+
+.form-group label {
+    display: block;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #666;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.form-group select,
+.form-group input {
+    width: 100%;
+    background: #000000;
+    border: 1px solid #333;
+    padding: 10px 12px;
+    border-radius: 6px;
+    color: #ededed;
+    font-size: 13px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.form-group select:focus,
+.form-group input:focus {
+    border-color: #666;
+}
+
+.form-group select optgroup {
+    background: #000000;
+    color: #666;
+    font-weight: 600;
+}
+
+.form-group select option {
+    color: #ededed;
+}
+
+.post-btn {
+    background: #ededed;
+    border: 1px solid #ededed;
+    color: #000000;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    height: 39px;
+}
+
+.post-btn:hover {
+    background: #cccccc;
+    border-color: #cccccc;
+}
+
+.filter-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 4px;
+    margin-bottom: -8px;
+    border-bottom: 1px solid #1a1a1a;
+    padding-bottom: 16px;
+}
+
+.filter-title {
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #ededed;
+}
+
+.live-dot {
+    width: 6px;
+    height: 6px;
+    background: #34d399;
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(52, 211, 153, 0.5);
+}
+
+.cards-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.job-card {
+    background: #080808;
+    border: 1px solid #1f1f1f;
+    border-radius: 8px;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 16px;
+    align-items: center;
+    transition: all 0.2s ease;
+}
+
+.job-card:hover {
+    border-color: #444;
+    background: #0c0c0c;
+    transform: translateY(-1px);
+}
+
+/* Enterprise Color Coding Badges (Translucent Backgrounds) */
+.badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    margin-bottom: 12px;
+}
+
+.badge-transport {
+    background: rgba(59, 130, 246, 0.15);
+    color: #60a5fa;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.badge-delivery {
+    background: rgba(245, 158, 11, 0.15);
+    color: #fbbf24;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.badge-home {
+    background: rgba(16, 185, 129, 0.15);
+    color: #34d399;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.badge-care {
+    background: rgba(236, 72, 153, 0.15);
+    color: #f472b6;
+    border: 1px solid rgba(236, 72, 153, 0.3);
+}
+
+.badge-beauty {
+    background: rgba(168, 85, 247, 0.15);
+    color: #c084fc;
+    border: 1px solid rgba(168, 85, 247, 0.3);
+}
+
+.badge-creative {
+    background: rgba(239, 68, 68, 0.15);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.job-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #ededed;
+    margin-bottom: 6px;
+    letter-spacing: -0.2px;
+}
+
+.job-details {
+    font-size: 13px;
+    color: #888888;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.job-details span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.action-pane {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 12px;
+}
+
+.job-price {
+    font-size: 18px;
+    font-weight: 600;
+    color: #ededed;
+    letter-spacing: -0.5px;
+}
+
+.job-sub {
+    font-size: 11px;
+    color: #666;
+    font-weight: 500;
+}
+
+.claim-btn {
+    background: transparent;
+    color: #ededed;
+    border: 1px solid #444;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.claim-btn:hover {
+    background: #222;
+    border-color: #666;
+    color: #fff;
+}
+
+#toast {
+    display: none;
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    background: #ededed;
+    color: #000000;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .container {
+        grid-template-columns: 1fr;
+    }
+
+    .quick-post-bar {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        flex-direction: row;
+        flex-wrap: wrap;
+        border-bottom: 1px solid #1a1a1a;
+        padding-bottom: 24px;
+    }
+
+    .sidebar-box {
+        flex: 1;
+        min-width: 300px;
+    }
+}
+
+@media (max-width: 768px) {
+    .job-card {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .action-pane {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        border-top: 1px solid #1a1a1a;
+        padding-top: 16px;
+        width: 100%;
+    }
+
+    .job-sub {
+        display: none;
+    }
+}
+
+/* ==========================================================================
+   Platform Economics Cards
+   ========================================================================== */
+.metric-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 14px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    font-size: 13px;
+    transition: transform 0.2s ease;
+}
+
+.metric-card:hover {
+    transform: translateY(-1px);
+}
+
+/* Red tint for the expensive aggregator cut */
+.metric-card.aggregator {
+    background: rgba(239, 68, 68, 0.05);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    color: #888888;
+}
+
+.metric-card.aggregator .val {
+    color: #ef4444;
+    text-decoration: line-through;
+}
+
+/* Green tint for your flat fee */
+.metric-card.coopgig {
+    background: rgba(16, 185, 129, 0.05);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    color: #ededed;
+}
+
+.metric-card.coopgig .val {
+    color: #34d399;
+    font-weight: 600;
+}
+
+/* Blue tint for the total wealth saved */
+.metric-card.saved {
+    background: rgba(59, 130, 246, 0.05);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    color: #ededed;
+    margin-bottom: 16px;
+}
+
+.metric-card.saved .val {
+    color: #60a5fa;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: -0.5px;
+}
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-area">
+            <div class="logo-badge">CoopGig</div>
+            <div class="title-text">
+                <h1>CoopGig by TeamTrasker </h1>
+                <p>Zero-Commission • Open Market Dispatch • Flat SaaS Micro-Fees</p>
+                <p>One Platform For Every Local Service — From Rides And Deliveries To Home, Care, And Professional Services</p>
+            </div>
+        </div>
+        <div class="header-stats">
+            <div class="wallet-pill" id="wallet-pill">Operator Wallet: ₹ 850.00</div>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <aside class="sidebar">
+            <div class="sidebar-box">
+                <div class="nav-label">Marketplace Verticals</div>
+                <button class="cat-btn active" onclick="filterCategory('all', this)">
+                    <span>All Open Leads</span><span class="cat-count" id="count-all">0</span>
+                </button>
+                <button class="cat-btn" onclick="filterCategory('transport', this)">
+                    <span>Transport & Rides</span><span class="cat-count" id="count-transport">0</span>
+                </button>
+                <button class="cat-btn" onclick="filterCategory('delivery', this)">
+                    <span>Errands & Delivery</span><span class="cat-count" id="count-delivery">0</span>
+                </button>
+                <button class="cat-btn" onclick="filterCategory('home', this)">
+                    <span>Home & Maintenance</span><span class="cat-count" id="count-home">0</span>
+                </button>
+                <button class="cat-btn" onclick="filterCategory('care', this)">
+                    <span>Care & Education</span><span class="cat-count" id="count-care">0</span>
+                </button>
+                <button class="cat-btn" onclick="filterCategory('beauty', this)">
+                    <span>Beauty & Grooming</span><span class="cat-count" id="count-beauty">0</span>
+                </button>
+                <button class="cat-btn" onclick="filterCategory('creative', this)">
+                    <span>Creative & Events</span><span class="cat-count" id="count-creative">0</span>
+                </button>
+            </div>
+
+            <div class="sidebar-box">
+            <div class="nav-label" style="margin-bottom: 12px;">Platform Economics</div>
+            
+            <div class="metric-card aggregator">
+                <span>Aggregator Cut:</span>
+                <span class="val">25% – 30%</span>
+            </div>
+            
+            <div class="metric-card coopgig">
+                <span>CoopGig Flat Fee:</span>
+                <span class="val">₹15 – ₹25 / gig</span>
+            </div>
+            
+            <div class="metric-card saved">
+                <span>Worker Wealth Saved:</span>
+                <span class="val" id="savings-counter">₹ 4,320</span>
+            </div>
+            
+            <button class="cat-btn" style="justify-content: center; background: #0a0a0a; border: 1px solid #333; width: 100%;" onclick="rechargeWallet()">
+                <span>Recharge SaaS Wallet (+₹200)</span>
+            </button>
+        </div>
+        </aside>
+
+        <main class="main-stage">
+            
+            <div class="quick-post-bar">
+                <div class="form-group">
+                    <label>Select Exact Service</label>
+                    <select id="new-cat">
+                        <optgroup label="Transport & Rides">
+                            <option value="transport">🚕 Ride-hailing</option>
+                            <option value="transport">🚗 Door Pickup/Drop Car Service</option>
+                        </optgroup>
+                        <optgroup label="Errands & Delivery">
+                            <option value="delivery">🛵 Grocery delivery</option>
+                            <option value="delivery">🍱 Home-cooked meal delivery</option>
+                            <option value="delivery">🛒 Personal shopping / errand running</option>
+                            <option value="delivery">🧺 Laundry & dry cleaning pickup</option>
+                            <option value="delivery">📦 Local courier & parcel delivery</option>
+                        </optgroup>
+                        <optgroup label="Home & Maintenance">
+                            <option value="home">🧹 House cleaning</option>
+                            <option value="home">🔧 Electrician</option>
+                            <option value="home">🚰 Plumber</option>
+                            <option value="home">❄️ AC repair & servicing</option>
+                            <option value="home">💻 Computer/laptop repair</option>
+                            <option value="home">🔑 Locksmith</option>
+                            <option value="home">🪑 Furniture assembly & moving help</option>
+                            <option value="home">🌱 Gardening & plant care</option>
+                            <option value="home">🚗 Car/bike washing</option>
+                        </optgroup>
+                        <optgroup label="Care & Education">
+                            <option value="care">🐕 Pet care & dog walking</option>
+                            <option value="care">👴 Elderly assistance / errands</option>
+                            <option value="care">📚 Home tutoring</option>
+                        </optgroup>
+                        <optgroup label="Beauty & Grooming">
+                            <option value="beauty">💇 Home salon & grooming</option>
+                        </optgroup>
+                        <optgroup label="Creative & Events">
+                            <option value="creative">📸 Photography & videography</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Gig Details / Location</label>
+                    <input type="text" id="new-title" placeholder="e.g. Walk my Husky in Clement Town">
+                </div>
+                <div class="form-group">
+                    <label>Customer Offer (₹)</label>
+                    <input type="number" id="new-price" placeholder="e.g. 500">
+                </div>
+                <button class="post-btn" onclick="postJob()">Broadcast Gig</button>
+            </div>
+
+            <div class="filter-bar">
+                <div class="filter-title">
+                    <div class="live-dot"></div>
+                    <span id="current-category-label">Live Open Ledger (All Verticals)</span>
+                </div>
+                <span style="font-size: 12px; color: #666;">100% Direct Payout to Independent Operators</span>
+            </div>
+
+            <div class="cards-grid" id="jobs-container">
+                <!-- Dynamically populated -->
+            </div>
+        </main>
+    </div>
+
+    <div id="toast"></div>
+
+    <script>
+        // Database mapped to new specific color badges
+        let jobs = [
+            { id: 1, category: 'transport', badgeClass: 'badge-transport', catName: 'Transport', title: '🚗 Door Pickup/Drop Car Service', details: 'Outstation driver needed • Drive my car to Delhi', price: 2000, fee: 25 },
+            { id: 2, category: 'home', badgeClass: 'badge-home', catName: 'Maintenance', title: '❄️ AC repair & servicing', details: 'Split AC gas refill & deep clean • Vasant Vihar', price: 1200, fee: 15 },
+            { id: 3, category: 'care', badgeClass: 'badge-care', catName: 'Caregiving', title: '👴 Elderly assistance / errands', details: 'Accompany grandfather to eye clinic • 3 hours', price: 500, fee: 15 },
+            { id: 4, category: 'delivery', badgeClass: 'badge-delivery', catName: 'Errands', title: '🛒 Personal shopping / errand running', details: 'Pickup prescription meds & 5 grocery items', price: 250, fee: 10 },
+            { id: 5, category: 'beauty', badgeClass: 'badge-beauty', catName: 'Salon', title: '💇 Home salon & grooming', details: 'Bridal party makeup (3 people) • Sunday morning', price: 4500, fee: 25 },
+            { id: 6, category: 'home', badgeClass: 'badge-home', catName: 'Maintenance', title: '🔧 Electrician', details: 'Fix short circuit in main panel • Urgent • Rajpur Road', price: 800, fee: 15 },
+            { id: 7, category: 'transport', badgeClass: 'badge-transport', catName: 'Transport', title: '🚕 Ride-hailing', details: 'Hatchback • Clock Tower to ISBT • ASAP', price: 350, fee: 15 },
+            { id: 8, category: 'care', badgeClass: 'badge-care', catName: 'Education', title: '📚 Home tutoring', details: 'Class 10 Science & Math • 3 days a week • 1 month', price: 4000, fee: 25 },
+            { id: 9, category: 'home', badgeClass: 'badge-home', catName: 'Maintenance', title: '🧹 House cleaning', details: '2BHK Deep Cleaning post-renovation • Tools needed', price: 2500, fee: 20 },
+            { id: 10, category: 'delivery', badgeClass: 'badge-delivery', catName: 'Errands', title: '📦 Local courier & parcel delivery', details: 'Deliver 15kg box to Industrial Area', price: 400, fee: 15 },
+            { id: 11, category: 'creative', badgeClass: 'badge-creative', catName: 'Creative', title: '📸 Photography & videography', details: 'Candid video for 1st birthday party • 4 hours', price: 3500, fee: 25 },
+            { id: 12, category: 'home', badgeClass: 'badge-home', catName: 'Maintenance', title: '💻 Computer/laptop repair', details: 'Windows OS format & RAM upgrade • Bring parts', price: 900, fee: 15 },
+            { id: 13, category: 'care', badgeClass: 'badge-care', catName: 'Caregiving', title: '🐕 Pet care & dog walking', details: 'Walk 2 Golden Retrievers • 1 hour • Evening', price: 300, fee: 10 },
+            { id: 14, category: 'home', badgeClass: 'badge-home', catName: 'Maintenance', title: '🚗 Car/bike washing', details: 'SUV exterior foam wash & interior vacuum', price: 450, fee: 15 }
+        ];
+
+        let walletBalance = 850;
+        let totalWorkerSavings = 4320;
+        let currentFilter = 'all';
+
+        function renderJobs() {
+            const container = document.getElementById('jobs-container');
+            const filtered = currentFilter === 'all' ? jobs : jobs.filter(j => j.category === currentFilter);
+            
+            if (filtered.length === 0) {
+                container.innerHTML = '<div style="text-align: center; color: #666; padding: 40px; font-size: 13px;">No open leads in this category right now.</div>';
+                return;
+            }
+
+            container.innerHTML = filtered.map(job => `
+                <div class="job-card" id="job-${job.id}">
+                    <div>
+                        <span class="badge ${job.badgeClass}">${job.catName}</span>
+                        <div class="job-title">${job.title}</div>
+                        <div class="job-details"><span style="color: #444;">↳</span> <span>${job.details}</span></div>
+                    </div>
+                    <div class="action-pane">
+                        <div>
+                            <div class="job-price">₹ ${job.price.toLocaleString()}</div>
+                            <div class="job-sub">0% Commission</div>
+                        </div>
+                        <button class="claim-btn" onclick="claimJob(${job.id}, ${job.fee}, ${job.price})">
+                            Claim — ₹${job.fee} Fee
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+            updateCounts();
+        }
+
+        function updateCounts() {
+            document.getElementById('count-all').innerText = jobs.length;
+            document.getElementById('count-transport').innerText = jobs.filter(j => j.category === 'transport').length;
+            document.getElementById('count-delivery').innerText = jobs.filter(j => j.category === 'delivery').length;
+            document.getElementById('count-home').innerText = jobs.filter(j => j.category === 'home').length;
+            document.getElementById('count-care').innerText = jobs.filter(j => j.category === 'care').length;
+            document.getElementById('count-beauty').innerText = jobs.filter(j => j.category === 'beauty').length;
+            document.getElementById('count-creative').innerText = jobs.filter(j => j.category === 'creative').length;
+        }
+
+        function filterCategory(cat, btnElement) {
+            currentFilter = cat;
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            if(btnElement) btnElement.classList.add('active');
+            
+            const titles = {
+                all: 'Live Open Ledger (All Verticals)',
+                transport: 'Live Transport & Car Service Leads',
+                delivery: 'Live Errands, Shopping & Deliveries',
+                home: 'Live Maintenance, Cleaning & Repair Calls',
+                care: 'Live Tutoring, Pet & Elder Care Leads',
+                beauty: 'Live Salon, Grooming & Beauty Bookings',
+                creative: 'Live Photography & Event Requests'
+            };
+            document.getElementById('current-category-label').innerText = titles[cat];
+            renderJobs();
+        }
+
+        function claimJob(id, fee, price) {
+            if (walletBalance < fee) { alert('Wallet balance too low for flat SaaS fee. Please recharge.'); return; }
+            walletBalance -= fee;
+            const saved = (price * 0.25) - fee;
+            totalWorkerSavings += Math.max(0, saved);
+            jobs = jobs.filter(j => j.id !== id);
+            
+            document.getElementById('wallet-pill').innerText = `Operator Wallet: ₹ ${walletBalance.toFixed(2)}`;
+            document.getElementById('savings-counter').innerText = `₹ ${Math.round(totalWorkerSavings).toLocaleString()}`;
+            showToast(`Lead Claimed. Worker retained ₹${price - fee}.`);
+            renderJobs();
+        }
+
+        function postJob() {
+            const selectEl = document.getElementById('new-cat');
+            const cat = selectEl.value;
+            const selectedText = selectEl.options[selectEl.selectedIndex].text;
+            
+            const titleInput = document.getElementById('new-title').value.trim();
+            const price = parseFloat(document.getElementById('new-price').value);
+
+            if (!titleInput || !price || price <= 0) { alert('Please enter gig details and a valid price.'); return; }
+
+            const badges = {
+                transport: { badgeClass: 'badge-transport', catName: 'Transport', fee: 20 },
+                delivery: { badgeClass: 'badge-delivery', catName: 'Errands', fee: 15 },
+                home: { badgeClass: 'badge-home', catName: 'Maintenance', fee: 15 },
+                care: { badgeClass: 'badge-care', catName: 'Caregiving', fee: 15 },
+                beauty: { badgeClass: 'badge-beauty', catName: 'Salon', fee: 15 },
+                creative: { badgeClass: 'badge-creative', catName: 'Creative', fee: 25 }
+            };
+
+            jobs.unshift({
+                id: Date.now(), category: cat, badgeClass: badges[cat].badgeClass, catName: badges[cat].catName,
+                title: `${selectedText}`, details: titleInput, price: price, fee: badges[cat].fee
+            });
+            
+            document.getElementById('new-title').value = '';
+            document.getElementById('new-price').value = '';
+            showToast('New gig broadcasted.');
+            renderJobs();
+        }
+
+        function rechargeWallet() {
+            walletBalance += 200;
+            document.getElementById('wallet-pill').innerText = `Operator Wallet: ₹ ${walletBalance.toFixed(2)}`;
+            showToast('₹200 added to operator SaaS balance.');
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.innerText = msg;
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, 3000);
+        }
+
+        renderJobs();
+    </script>
+</body>
+</html>
